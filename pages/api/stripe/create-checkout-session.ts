@@ -1,23 +1,35 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export const config = { runtime: "nodejs" }; // Stripe needs Node, not Edge
-
-const key = process.env.STRIPE_SECRET_KEY;
-if (!key) throw new Error("Missing STRIPE_SECRET_KEY");
-
-const stripe = new Stripe(key /*, { apiVersion: "2023-08-16" }*/); // ← remove apiVersion
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("Missing STRIPE_SECRET_KEY");
+  }
+
   try {
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
       mode: "payment",
-      line_items: [{ price: "price_123", quantity: 1 }], // placeholder
-      success_url: `${process.env.NEXTAUTH_URL}/success`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Test Product",
+            },
+            unit_amount: 2000, // $20.00
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: `${req.headers.origin}/success`,
+      cancel_url: `${req.headers.origin}/cancel`,
     });
-    return res.status(200).json({ id: session.id, url: session.url });
+
+    res.status(200).json({ id: session.id });
   } catch (err: any) {
-    return res.status(500).json({ error: err.message ?? "Stripe error" });
+    res.status(500).json({ error: err.message });
   }
 }
