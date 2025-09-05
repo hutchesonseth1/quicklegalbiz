@@ -1,38 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-08-16",
-});
+export const config = { runtime: "nodejs" }; // Stripe needs Node, not Edge
+
+const key = process.env.STRIPE_SECRET_KEY;
+if (!key) throw new Error("Missing STRIPE_SECRET_KEY");
+
+const stripe = new Stripe(key /*, { apiVersion: "2023-08-16" }*/); // ← remove apiVersion
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    try {
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: "Digital Form",
-              },
-              unit_amount: 1999,
-            },
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        success_url: `${req.headers.origin}/dashboard?success=true`,
-        cancel_url: `${req.headers.origin}/dashboard?canceled=true`,
-      });
-
-      res.status(200).json({ id: session.id });
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: [{ price: "price_123", quantity: 1 }], // placeholder
+      success_url: `${process.env.NEXTAUTH_URL}/success`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
+    });
+    return res.status(200).json({ id: session.id, url: session.url });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message ?? "Stripe error" });
   }
 }
