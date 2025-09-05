@@ -1,0 +1,1 @@
+// Placeholder for dashboard/settings.tsx

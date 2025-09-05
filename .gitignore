@@ -1,0 +1,12 @@
+# Node / Next
+node_modules/
+.next/
+out/
+.vercel/
+# Env & OS
+.env*
+!.env.example
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
