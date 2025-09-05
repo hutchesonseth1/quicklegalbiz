@@ -1,35 +1,34 @@
+// pages/api/stripe/create-checkout-session.ts
+import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
-import { NextApiRequest, NextApiResponse } from "next";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+export const config = { runtime: "nodejs" };
+
+const key = process.env.STRIPE_SECRET_KEY;
+if (!key) throw new Error("Missing STRIPE_SECRET_KEY env var");
+
+const stripe = new Stripe(key); // v12 OK with single arg
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error("Missing STRIPE_SECRET_KEY");
-  }
-
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       mode: "payment",
       line_items: [
         {
           price_data: {
             currency: "usd",
-            product_data: {
-              name: "Test Product",
-            },
-            unit_amount: 2000, // $20.00
+            product_data: { name: "LegalPad form" },
+            unit_amount: 2000,
           },
           quantity: 1,
         },
       ],
-      success_url: `${req.headers.origin}/success`,
-      cancel_url: `${req.headers.origin}/cancel`,
+      success_url: `${process.env.NEXTAUTH_URL}/success`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
     });
 
-    res.status(200).json({ id: session.id });
+    return res.status(200).json({ id: session.id, url: session.url });
   } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message ?? "Stripe error" });
   }
 }
