@@ -10,6 +10,6 @@ if (!key) {
 // Pick the API version you’ve enabled in Stripe dashboard.
 // Using a literal keeps TS happy across SDK versions.
 export const stripe = new Stripe(key, {
-  apiVersion: '2024-06-20',
+  apiVersion: '2022-11-15',
   appInfo: { name: 'YourApp', version: '1.0.0' },
 });
