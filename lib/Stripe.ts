@@ -1,5 +1,5 @@
 // ESM import; works in Next 15 Node runtime
-import Stripe from 'stripe';
+import stripe from 'stripe';
 
 const key = process.env.STRIPE_SECRET_KEY;
 if (!key) {
