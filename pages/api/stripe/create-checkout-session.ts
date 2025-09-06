@@ -5,7 +5,7 @@ import Stripe from "stripe";
 export const config = { runtime: "nodejs" };
 
 const key = process.env.STRIPE_SECRET_KEY;
-if (!key) throw new Error("Missing STRIPE_SECRET_KEY env var");
+if (!key) throw new Error("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_SECRET_KEY env var");
 
 const stripe = new Stripe(key); // v12 OK with single arg
 
