@@ -1,11 +1,10 @@
-// pages/api/stripe/create-checkout-session.ts
-import type { NextApiRequest, NextApiResponse } from "next";
+Export type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
 export const config = { runtime: "nodejs" };
 
 const key = process.env.STRIPE_SECRET_KEY;
-if (!key) throw new Error("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_SECRET_KEY env var");
+if (!key) throw new Error("Pass"
 
 const stripe = new Stripe(key); // v12 OK with single arg
 
@@ -19,8 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             currency: "usd",
             product_data: { name: "LegalPad form" },
             unit_amount: 2000,
-          },
-          quantity: 1,
+          }
         },
       ],
       success_url: `${process.env.NEXTAUTH_URL}/success`,
