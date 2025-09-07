@@ -1,15 +1,16 @@
-// ESM import; works in Next 15 Node runtime
-import stripe from 'stripe';
+// lib/stripe.ts
 
-const key = process.env.STRIPE_SECRET_KEY;
-if (!key) {
-  // Fail fast during build/runtime if not configured
-  throw new Error('Missing STRIPE_SECRET_KEY');
+import Stripe from 'stripe';
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+if (!stripeSecretKey) {
+  throw new Error('Missing STRIPE_SECRET_KEY in environment variables.');
 }
 
-// Pick the API version you’ve enabled in Stripe dashboard.
-// Using a literal keeps TS happy across SDK versions.
-export const stripe = new Stripe(key, {
-  apiVersion: '2022-11-15',
-  appInfo: { name: 'YourApp', version: '1.0.0' },
+const stripe = new Stripe(stripeSecretKey, {
+  apiVersion: '2022-11-15', // ✅ Use your target Stripe API version
 });
+
+export default stripe;
+
