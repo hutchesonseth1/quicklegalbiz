@@ -11,7 +11,7 @@ export default function CreateFormPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { error } = await supabase.from("forms").insert([
+    const { error } = await supabase.from("form").insert([
       {
         user_email: formData.email,
         full_name: formData.fullName,
@@ -31,7 +31,7 @@ export default function CreateFormPage() {
       <input
         className="border p-2 w-full"
         type="email"
-        placeholder="Email"
+        placeholder="email"
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
       />
