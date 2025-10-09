@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  documents Document[]
+  logs      Log[]
+  aiUsages  AiUsage[]
+  createdAt DateTime   @default(now())
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  type      String
+  message   String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model AiUsage {
+  id        String   @id @default(cuid())
+  model     String
+  tokensIn  Int
+  tokensOut Int
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  type      String
+  message   String
+  status    String
+  createdAt DateTime @default(now())
+}

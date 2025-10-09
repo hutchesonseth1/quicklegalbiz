@@ -1,0 +1,48 @@
+-------------------------------------------
+🧠 QuickLegalBiz Bulletproof Run — Sat Oct  4 19:34:19 EDT 2025
+-------------------------------------------
+✅ .env.local found
+📦 Checking dependencies...
+🏗️  Building project...
+
+> quick-legal@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local, .env
+
+   Linting and checking validity of types ...
+Failed to compile.
+
+./clean-repo/lib/stripe.ts:10:3
+Type error: Type '"2024-06-01"' is not assignable to type '"2025-09-30.clover"'.
+
+[0m [90m  8 |[39m[0m
+[0m [90m  9 |[39m [36mconst[39m stripe [33m=[39m [36mnew[39m [33mStripe[39m(stripeSecretKey[33m,[39m {[0m
+[0m[31m[1m>[22m[39m[90m 10 |[39m   apiVersion[33m:[39m [32m"2024-06-01"[39m[33m,[39m[0m
+[0m [90m    |[39m   [31m[1m^[22m[39m[0m
+[0m [90m 11 |[39m })[33m;[39m[0m
+[0m [90m 12 |[39m[0m
+[0m [90m 13 |[39m [36mexport[39m [36mdefault[39m stripe[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null
+✅ Resend key exists
+✅ Stripe key exists
+💳 Testing Stripe API...
+[eval]:3
+    const stripe = new Stripe('sk_test_xxx
+                              ^^^^^^^^^^^^
+
+SyntaxError: Invalid or unexpected token
+    at makeContextifyScript (node:internal/vm:122:14)
+    at node:internal/process/execution:89:22
+    at [eval]-wrapper:6:24
+    at runScript (node:internal/process/execution:83:62)
+    at evalScript (node:internal/process/execution:114:10)
+    at node:internal/main/eval_string:30:3
+
+Node.js v18.20.8
+📨 Sending test email via Resend...
+✅ Resend email sent successfully
+🚨 Sending failure alert...
+✅ Failure alert sent
+🧩 Run complete — logs saved to logs/quicklegal_2025-10-04_19-34-19.log

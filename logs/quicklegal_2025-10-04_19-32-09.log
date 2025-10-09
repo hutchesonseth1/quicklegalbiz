@@ -1,0 +1,32 @@
+-------------------------------------------
+🧠 QuickLegalBiz Bulletproof Run — Sat Oct  4 19:32:09 EDT 2025
+-------------------------------------------
+✅ .env.local exists
+📦 Ensuring dependencies...
+✅ Stripe key exists
+✅ Resend key exists
+🏗️  Running build...
+
+> quick-legal@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local, .env
+
+   Linting and checking validity of types ...
+Failed to compile.
+
+./clean-repo/lib/stripe.ts:10:3
+Type error: Type '"2024-06-01"' is not assignable to type '"2025-09-30.clover"'.
+
+[0m [90m  8 |[39m[0m
+[0m [90m  9 |[39m [36mconst[39m stripe [33m=[39m [36mnew[39m [33mStripe[39m(stripeSecretKey[33m,[39m {[0m
+[0m[31m[1m>[22m[39m[90m 10 |[39m   apiVersion[33m:[39m [32m"2024-06-01"[39m[33m,[39m[0m
+[0m [90m    |[39m   [31m[1m^[22m[39m[0m
+[0m [90m 11 |[39m })[33m;[39m[0m
+[0m [90m 12 |[39m[0m
+[0m [90m 13 |[39m [36mexport[39m [36mdefault[39m stripe[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null
+❌ Build failed!
+🚨 Sending failure alert via Resend...
+🧩 Run complete — logs saved to logs/quicklegal_2025-10-04_19-32-09.log
