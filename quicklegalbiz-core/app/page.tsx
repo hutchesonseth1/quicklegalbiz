@@ -2,12 +2,17 @@
 import { useState } from "react";
 import axios from "axios";
 import { FileText, Send } from "lucide-react";
+import StatusBar from "../components/StatusBar";
 
 export default function Home() {
   const [type, setType] = useState("Motion");
   const [name, setName] = useState("");
   const [result, setResult] = useState("");
-
+   return (
+  <main className="flex flex-col items-center justify-center h-screen bg-gray-50 p-6">
+    <StatusBar />
+    <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg">
+      ...
   async function handleSubmit(e: any) {
     e.preventDefault();
     setResult("Processing...");
